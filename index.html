@@ -51,6 +51,8 @@ var bufferCoordsCircle;   // A vertex buffer object to hold the values for coord
 var bufferCoordsSquare;   //  ...of the square
 var bufferCoordsTriangle; //  ...of the triangle
 var bufferCoordsStar;     //  ...and of the star.
+var bufferCoordsRectangle;  // new shape rectangle
+var bufferCoordsTrapezoid;  // new shape trapezoid
 
 var colorList = [ // available colors for shapes
         [ 1, 0, 0 ],
@@ -60,7 +62,10 @@ var colorList = [ // available colors for shapes
         [ 1, 0, 1 ],
         [ 1, 1, 0 ],
         [ 0, 0, 0 ],
-        [ 0.5, 0.5, 0.5 ]
+        [ 0.5, 0.5, 0.5 ],
+        // New Colors
+        [ 0.5, 0, 0.9 ],
+        [ 1, 0.5, 0.8]
     ];
 
 /**
@@ -131,6 +136,16 @@ function putShape(x, y) {
             gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoordsTriangle);
             gl.vertexAttribPointer(attributeCoords, 2, gl.FLOAT, false, 0, 0);
             gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
+            break;
+        case "Rectangle":
+            gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoordsRectangle);
+            gl.vertexAttribPointer(attributeCoords, 2, gl.FLOAT, false, 0, 0);
+            gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+            break;
+        case "Trapezoid":
+            gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoordsTrapezoid);
+            gl.vertexAttribPointer(attributeCoords, 2, gl.FLOAT, false, 0, 0);
+            gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
             break;
         default: // "Star
             gl.bindBuffer(gl.ARRAY_BUFFER, bufferCoordsStar);
@@ -216,6 +231,38 @@ function createShapeBuffers() {
 
     bufferCoordsStar = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, bufferCoordsStar );
+    gl.bufferData(gl.ARRAY_BUFFER, coords, gl.STATIC_DRAW);
+
+    //new shapes
+    //to create rectangle
+    coords = new Float32Array(8);
+    coords[0] = -80;
+    coords[1] = -40;
+    coords[2] = -80;
+    coords[3] = +40;
+    coords[4] = +40;
+    coords[5] = +40;
+    coords[6] = +40;
+    coords[7] = -40;
+    
+    bufferCoordsRectangle = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, bufferCoordsRectangle );
+    gl.bufferData(gl.ARRAY_BUFFER, coords, gl.STATIC_DRAW);
+
+    //new shape
+    //to create trapezoid
+    coords = new Float32Array(8);
+    coords[0] = -40;
+    coords[1] = -40;
+    coords[2] = -80;
+    coords[3] = +40;
+    coords[4] = +80;
+    coords[5] = +40;
+    coords[6] = +40;
+    coords[7] = -40;
+    
+    bufferCoordsTrapezoid = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, bufferCoordsTrapezoid );
     gl.bufferData(gl.ARRAY_BUFFER, coords, gl.STATIC_DRAW);
 }
 
@@ -333,6 +380,9 @@ function init() {
         <option>Square</option>
         <option>Triangle</option>
         <option>Star</option>
+        <!-- New Shape -->
+        <option>Rectangle</option>
+        <option>Trapezoid</option>
     </select></label>
 </p>
 <p>
@@ -346,6 +396,9 @@ function init() {
         <option value="5">Yellow</option>
         <option value="6">Black</option>
         <option value="7">Gray</option>
+        <!--new colors-->
+        <option value="8">Purple</option>
+        <option value="9">Pink</option>
     </select></label>
 </p>
 <p>
